@@ -1,0 +1,7 @@
+[book]
+authors = ["Francis Du"]
+language = "en"
+multilingual = false
+src = "src"
+title = "Koifish"
+description = "The Koifish Book."
