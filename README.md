@@ -2,7 +2,7 @@
 
 # Koifish
 
-I am Koifish,you too.
+I am a fish, name is Koifish.
 
 # Contributing
 
@@ -34,7 +34,7 @@ cargo install mdbook
 mkbook serve
 ``` 
 
-#FAQ
+# FAQ
 [FAQ](docs/src/faq.md)
 
 # LICENSE
