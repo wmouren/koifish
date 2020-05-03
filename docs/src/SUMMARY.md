@@ -13,4 +13,6 @@
 
 * [FAQ](faq.md)
 
-* [LICEMSE](LICENSE)
+* [Code of Conduct](CODE_OF_CONDUCT.md)
+
+* [LICENSE](LICENSE)
