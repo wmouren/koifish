@@ -1,30 +1,35 @@
+use std::fs::File;
+use std::io::Read;
+use std::path::Path;
+
 use structopt::StructOpt;
+use toml;
+
+use crate::handler::join;
+use crate::handler::login;
+use crate::handler::oauth;
+use crate::model::conf::Config;
+use crate::model::oauth::OauthToken;
 
 #[derive(Debug, PartialEq, StructOpt)]
-#[structopt(about = "
-█▄▀ █▀█ ░ █▀▀ ░ █▀ █░█
-█░█ █▄█ █ █▀▀ █ ▄█ █▀█")]
-pub struct Koifish {
+#[structopt(name = "
+    █▄▀ █▀█ ░ █▀▀ ░ █▀ █░█
+    █░█ █▄█ █ █▀▀ █ ▄█ █▀█  ")]
+pub enum Koifish {
     /// Run a online Koifish in https://webassembly.sh
-    #[structopt(short = "o", long = "oline", default_value = "")]
-    online: String,
-
-    /// Join our Slack Channel or WeChat Group(QR-Code)
-    #[structopt(short = "j", long = "join", default_value = "slack")]
-    join: String,
-
+    Online,
+    /// Join our slack | github | website | docs
+    Join {
+        #[structopt(default_value = "slack")]
+        channel: String,
+    },
     /// Start a web Koifish in local with your port.
-    #[structopt(short = "w", long = "web", default_value = "2121")]
-    web: String,
-
-    #[structopt(subcommand)]
-    fish: Option<Fish>,
-}
-
-#[derive(Debug, PartialEq, StructOpt)]
-enum Fish {
+    Web {
+        #[structopt(default_value = "2121")]
+        port: String,
+    },
     /// Login to GitHub.
-    Login { user: String, password: String },
+    Login,
     /// Get GitHub user info.
     User {
         #[structopt(default_value = "trisasnava")]
@@ -60,8 +65,60 @@ enum Fish {
 }
 
 impl Koifish {
-    /// Match command line args
-    pub fn match_args() -> Self {
-        Koifish::from_args()
+    /// Match Options
+    pub fn run() {
+        // Self::print_matches();
+        match Koifish::from_args() {
+            Koifish::Login => {
+                Self::login();
+            }
+            Koifish::Join { channel } => {
+                Self::join(channel);
+            }
+            _ => {}
+        }
+    }
+
+    /// print matches for test
+    fn print_matches() {
+        println!("{:#?}", Koifish::from_args());
+    }
+
+    // login to GitHub
+    fn login() -> std::io::Result<()> {
+        match dirs::home_dir() {
+            Some(home) => {
+                let config = Path::new(home.as_path()).join(".koi");
+                match config.exists() {
+                    false => {
+                        oauth::oauth();
+                    }
+                    true => {
+                        let mut file = File::open(config.as_path())?;
+                        let mut contents = String::new();
+                        file.read_to_string(&mut contents)?;
+
+                        let config: Config = toml::from_str(contents.as_str()).unwrap();
+
+                        match config {
+                            token => {
+                                if token.get_token().len() > 0 {
+                                    login::echo_username(token.get_token());
+                                } else {
+                                    oauth::oauth();
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            _ => {}
+        }
+        Ok(())
+    }
+
+    // join slack channel
+    fn join(channel: String) {
+        join::join(channel);
     }
 }
