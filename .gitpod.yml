@@ -1,0 +1,3 @@
+tasks:
+  - init: cargo install mdbook 
+    command: cd docs && mdbook serve

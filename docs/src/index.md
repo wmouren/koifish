@@ -4,7 +4,8 @@
 
 ![Logo](./favicon.png) 
 
-[![Rust Action](https://img.shields.io/github/workflow/status/trisasnava/koifish/Rust?label=Action)](https://github.com/trisasnava/koifish/actions)
-[![Docs Status](https://img.shields.io/travis/trisasnava/koifish/master?label=Docs)](https://travis-ci.com/trisasnava/koifish)
+[![Rust](https://github.com/trisasnava/koifish/workflows/Rust/badge.svg)](https://github.com/trisasnava/koifish/actions?query=workflow:Rust)
+[![Mdbook](https://github.com/trisasnava/koifish/workflows/Mdbook/badge.svg)](https://github.com/trisasnava/koifish/actions?query=workflow:Mdbook)
+[![Gitpod](https://img.shields.io/badge/Gitpod-ready--to--code-blue?logo=gitpod)](https://gitpod.io/#https://github.com/trisasnava/koifish)
 
-I am a fish, name is Koifish.
+I am a Fish, name is Koifish.

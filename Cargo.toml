@@ -1,14 +1,32 @@
 [package]
 name = "koifish"
-version = "0.1.0"
+version = "0.0.1"
 authors = ["francis-du <francis@francisdu.com>"]
 edition = "2018"
 
-# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+[[bin]]
+name = "koifish"
 
 [dependencies]
-reqwest = { version = "0.10", features = ["json"] }
-tokio = { version = "0.2", features = ["full"] }
-
-github-rs = "0.7"
+toml = "0.5.6"
+console = "0.11.3"
+webbrowser = "0.5.5"
+dirs = "3.0.1"
+crossterm = "0.17"
 serde_json = "1.0"
+serde_derive = "0.9"
+serde = { version = "1.0.110", features = ["derive"] }
+paw = "1.0"
+
+structopt = { version = "0.3", features = ["paw"] }
+reqwest = { version = "0.10", features = ["json"] }
+tokio = { version = "0.2", features = ["macros"] }
+tui = { version = "0.9", default-features = false, features = ['crossterm'] }
+
+[dependencies.github-rs]
+version = "0.7"
+default-features = false
+features = ["rust-native-tls"]
+
+[target.'cfg(windows)'.dependencies]
+winapi = { version = "0.3", features = ["winuser"] }
