@@ -12,7 +12,7 @@ documentation = "https://trisasnava.org/koifish"
 repository = "https://github.com/trisasnava/koifish"
 
 [[bin]]
-name = "fish"
+name = "koifish"
 path = "src/main.rs"
 
 [dependencies]
