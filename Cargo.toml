@@ -1,5 +1,5 @@
 [package]
-name = "koi"
+name = "koifish"
 version = "0.0.1"
 authors = ["francis-du <francis@francisdu.com>"]
 keywords = ["cli", "tui", "github"]
@@ -12,7 +12,7 @@ documentation = "https://trisasnava.org/koifish"
 repository = "https://github.com/trisasnava/koifish"
 
 [[bin]]
-name = "koifish"
+name = "koi"
 path = "src/main.rs"
 
 [dependencies]
