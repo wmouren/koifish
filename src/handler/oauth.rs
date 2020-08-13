@@ -1,17 +1,16 @@
 extern crate dirs;
 
 use std::fs;
-use std::io::{BufRead, BufReader, BufWriter, Read, Write};
+use std::io::{BufRead, BufReader, Write};
 use std::net::{TcpListener, TcpStream};
-use std::path::{Path, PathBuf};
+use std::path::Path;
 
 use reqwest;
 use reqwest::Url;
 use serde_json;
-use toml;
 use webbrowser;
 
-use crate::handler::login;
+use crate::handler::cli;
 use crate::model::oauth::OauthToken;
 
 pub fn oauth() {
@@ -43,7 +42,7 @@ pub fn oauth() {
                     response(stream);
                     break;
                 }
-                Err(e) => println!("Loin failure!"),
+                Err(_e) => println!("Loin failure!"),
             }
         }
     }
@@ -62,7 +61,7 @@ async fn oauth_save_token(code: String) -> Result<(), reqwest::Error> {
         .await?;
 
     sava_token(OauthToken::new(res["token"].to_string()));
-    login::echo_username(res["token"].to_string().replace("\"", "").as_str());
+    cli::echo_username(res["token"].to_string().replace("\"", "").as_str());
 
     Ok(())
 }
