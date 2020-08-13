@@ -1,5 +1,5 @@
+pub mod cli;
 pub mod issues;
-pub mod join;
 pub mod login;
 pub mod oauth;
 pub mod org;
