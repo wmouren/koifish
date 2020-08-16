@@ -2,10 +2,18 @@
 name = "koifish"
 version = "0.0.1"
 authors = ["francis-du <francis@francisdu.com>"]
+keywords = ["cli", "tui", "github"]
 edition = "2018"
+license = "Apache-2.0"
+description = "Koifish"
+readme = "README.md"
+homepage = "https://trisasnava.org/koifish"
+documentation = "https://trisasnava.org/koifish"
+repository = "https://github.com/trisasnava/koifish"
 
 [[bin]]
-name = "koifish"
+name = "koi"
+path = "src/main.rs"
 
 [dependencies]
 toml = "0.5.6"

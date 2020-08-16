@@ -5,8 +5,7 @@ use std::path::Path;
 use structopt::StructOpt;
 use toml;
 
-use crate::handler::join;
-use crate::handler::login;
+use crate::handler::cli;
 use crate::handler::oauth;
 use crate::model::conf::Config;
 use crate::model::oauth::OauthToken;
@@ -16,52 +15,51 @@ use crate::model::oauth::OauthToken;
     █▄▀ █▀█ ░ █▀▀ ░ █▀ █░█
     █░█ █▄█ █ █▀▀ █ ▄█ █▀█  ")]
 pub enum Koifish {
-    /// Run a online Koifish in https://webassembly.sh
-    Online,
-    /// Join our slack | github | website | docs
-    Join {
-        #[structopt(default_value = "slack")]
+    /// Verify login via GitHub Oauth
+    Login,
+    /// Join our slack channel
+    Join,
+    /// Open koifish github|website|docs
+    Open {
+        #[structopt(default_value = "docs")]
         channel: String,
     },
-    /// Start a web Koifish in local with your port.
-    Web {
-        #[structopt(default_value = "2121")]
-        port: String,
-    },
-    /// Login to GitHub.
-    Login,
-    /// Get GitHub user info.
-    User {
-        #[structopt(default_value = "trisasnava")]
-        user_or_org: String,
-    },
-    /// Get GitHub repo info.
-    Repo {
-        #[structopt(default_value = "trisasnava")]
-        user_or_org: String,
-        #[structopt(default_value = "koifish")]
-        repo: String,
-    },
-    /// Get GitHub issues info in your repo.
-    Issues {
-        #[structopt(default_value = "trisasnava")]
-        user_or_org: String,
-        #[structopt(default_value = "koifish")]
-        repo: String,
-    },
-    /// Get GitHub prs info for your repo.
-    Prs {
-        #[structopt(default_value = "trisasnava")]
-        user_or_org: String,
-        #[structopt(default_value = "koifish")]
-        repo: String,
-    },
-    /// Get GitHub trending repo info.
-    #[structopt(help = "Fitter by daily|weekly|monthly,The default is daily.")]
-    Trending {
-        #[structopt(default_value = "daily")]
-        date: String,
-    },
+    /// Start a meeting with https://meet.jit.si/koi
+    Meet,
+    /// Upgrade tool for Koifish
+    Upgrade,
+    // /// Get GitHub user info.
+    // User {
+    //     #[structopt(default_value = "trisasnava")]
+    //     user_or_org: String,
+    // },
+    // /// Get GitHub repo info.
+    // Repo {
+    //     #[structopt(default_value = "trisasnava")]
+    //     user_or_org: String,
+    //     #[structopt(default_value = "koifish")]
+    //     repo: String,
+    // },
+    // /// Get GitHub issues info in your repo.
+    // Issues {
+    //     #[structopt(default_value = "trisasnava")]
+    //     user_or_org: String,
+    //     #[structopt(default_value = "koifish")]
+    //     repo: String,
+    // },
+    // /// Get GitHub prs info for your repo.
+    // Prs {
+    //     #[structopt(default_value = "trisasnava")]
+    //     user_or_org: String,
+    //     #[structopt(default_value = "koifish")]
+    //     repo: String,
+    // },
+    // /// Get GitHub trending repo info.
+    // #[structopt(help = "Fitter by daily|weekly|monthly,The default is daily.")]
+    // Trending {
+    //     #[structopt(default_value = "daily")]
+    //     date: String,
+    // },
 }
 
 impl Koifish {
@@ -72,8 +70,14 @@ impl Koifish {
             Koifish::Login => {
                 Self::login();
             }
-            Koifish::Join { channel } => {
-                Self::join(channel);
+            Koifish::Join => {
+                Self::join();
+            }
+            Koifish::Open { channel } => {
+                Self::open(channel);
+            }
+            Koifish::Meet => {
+                Self::meet();
             }
             _ => {}
         }
@@ -103,7 +107,7 @@ impl Koifish {
                         match config {
                             token => {
                                 if token.get_token().len() > 0 {
-                                    login::echo_username(token.get_token());
+                                    cli::echo_username(token.get_token());
                                 } else {
                                     oauth::oauth();
                                 }
@@ -118,7 +122,17 @@ impl Koifish {
     }
 
     // join slack channel
-    fn join(channel: String) {
-        join::join(channel);
+    fn join() {
+        cli::join();
+    }
+
+    // Open Koifish site
+    fn open(channel: String) {
+        cli::open(channel);
+    }
+
+    // Start a meeting
+    fn meet() {
+        cli::meet()
     }
 }

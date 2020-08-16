@@ -5,8 +5,7 @@ on:
     branches: [ master ]
 
 jobs:
-  build:
-
+  rust_build:
     runs-on: ubuntu-latest
 
     steps:
